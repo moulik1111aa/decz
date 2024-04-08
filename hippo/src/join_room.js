@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
-import ResponseForm from './form_creation';
+import ResponseForm_1 from './form_c';
 
 const socket = io.connect("http://localhost:3002", {
     withCredentials: true,
@@ -47,7 +47,7 @@ const JoinRoom = () => {
           {push ? (
             <>
               {roomNotFound && <div>ROOM NOT FOUND!!!</div>}
-              {responseData && <ResponseForm responseData={responseData} />}
+              {responseData && <ResponseForm_1 responseData={responseData} />}
             </>
           ) : (
             <div className="input-container">

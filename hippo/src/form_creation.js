@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
-import Print_del from "./MongodB.js"
+import Print_del from "./MongodB"
 import  ChatApp from "./message_print" 
-
 const socket = io.connect("http://localhost:3002", {
     withCredentials: true,
     extraHeaders: {
@@ -15,7 +13,13 @@ const ResponseForm = ({ responseData }) => {
     const [formData, setFormData] = useState({});
     const [documents, setDocuments] = useState([]);
     const [push, setPush] = useState(false);
-
+    function generateRandomFourDigitNumber() {
+        return Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+      }
+    const code_id=generateRandomFourDigitNumber();
+    socket.emit("code_user",(code_id)=>{
+        console.log("code sent to the user:",code_id)
+    })
     useEffect(() => {
         const handleDataBase = (document) => {
             setDocuments((prevDocuments) => [...prevDocuments, document]);
@@ -30,8 +34,12 @@ const ResponseForm = ({ responseData }) => {
 
     const Handleclick = (e) => {
         e.preventDefault();
+        const stringifiedData = JSON.stringify(formData); // Stringify the formData
+        console.log('Form Data:', stringifiedData);
+        socket.emit("data", formData); 
+        socket.emit('form_room',formData)
         setPush(true);
-        console.log('Form Data:', formData);
+        
     };
 
     const handleChange = (e, fieldName) => {
@@ -42,8 +50,7 @@ const ResponseForm = ({ responseData }) => {
         }));
     };
 
-    if (push) {
-         
+    if (push) { 
         return(
          <div>
         <h1>User Data</h1>    
@@ -73,8 +80,8 @@ const ResponseForm = ({ responseData }) => {
 
       <div className="form-button-container">
         <button className="button" onClick={Handleclick}>Submit</button>
+        <ChatApp/>
       </div>
-         < ChatApp/>
         </form>
     );
     
