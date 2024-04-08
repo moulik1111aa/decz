@@ -10,7 +10,7 @@ const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
   
   cors: {
-    origin: ['http://localhost:3000', 'http://localhost:57886'],
+    origin: ['http://localhost:3000', 'https://deczfinal.onrender.com/'],
     credentials: true,
     allowedHeaders: ['Access-Control-Allow-Origin']
   }
